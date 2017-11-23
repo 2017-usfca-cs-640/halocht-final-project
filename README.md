@@ -1,4 +1,4 @@
-# Final Paper for BIOL395
+# Final Paper for CS640
 ## Complete draft due as a pull request on Monday, December 4th, 2017 before 11:59 pm
 ## Complete, revised draft due by Thursday, December 14th, 2017 before 11:59 pm
 
@@ -24,7 +24,7 @@ The grading breakdown for the final version will be as follows (for draft the po
 * 10 points - Appropriate use of git to version control the steps, including adding files and making commits frequently as you work on this assignment, and writing informative and appropriately formatted commit messages. Can't have too many commits, but you can have too few!
 * 20 points - Pull Request passes automated checks for file being able to be sucessfully knitted on another machine, as well as having all code style errors fixed. This is an all or nothing set of points, so please make sure your report passes these checks! You can submit your PR early to catch errors. Contact me well before the deadline if you are having trouble with this part of the assignment.
 
-You must submit a complete first draft of your work as a Pull Request to the class organization ('2017-usfca-biol-395') on GitHub by 11:59 pm on Monday, December 4th for full credit. We will also be peer reviewing the reports after they are submitted, as usual. The revised final report will be due by Thursday, December 14th, 2017 before 11:59 pm.
+You must submit a complete first draft of your work as a Pull Request to the class organization ('2017-usfca-cs-640') on GitHub by 11:59 pm on Monday, December 4th for full credit. We will also be peer reviewing the reports after they are submitted, as usual. The revised final report will be due by Thursday, December 14th, 2017 before 11:59 pm.
 
 Steps:
 
@@ -45,7 +45,7 @@ devtools::install_github("jimhester/lintr")
 and then whenever you want to check your code you can run at the R console in RStudio:
 
 ```r
-lint(filename = "Final_Report.Rmd")
+lintr::lint(filename = "Final_Report.Rmd")
 ```
 
 **Pro Tip** Save often, commit often, push often! If you have any questions or need clarification of what it is I'd like you to do, please ask me sooner rather than later so you stay on the right track for completing this assignment on time.
