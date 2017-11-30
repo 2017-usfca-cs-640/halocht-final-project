@@ -52,8 +52,7 @@ filenames_forward_reads <- file.path(path, filenames_forward_reads)
 # Plots the quality profiles of all twenty samples
 plotQualityProfile(filenames_forward_reads[1:20])
 
-# We can see from the quality profiles that most reads tend to get pretty bad in quality after around 200 bases. Therefore, we decided to set a maximum acceptable sequence length of 225 bases.
-
+# We can see from the quality profiles that most reads tend to get pretty b
 
 # Place filtered files in filtered/ subdirectory
 # note this will fail if the directory doesn't exist
@@ -68,8 +67,8 @@ filtered_reads_path <- file.path(filter_path,
 # faq.html#can-i-use-dada2-with-my-454-or-ion-torrent-data
 filtered_output <- filterAndTrim(fwd = filenames_forward_reads,
                                  filt = filtered_reads_path,
-                                 maxLen = 1000,
-                                 minLen = 55,
+                                 maxLen = 750,
+                                 minLen = 20,
                                  maxN = 0, # discard any seqs with Ns
                                  maxEE = 3, # allow w/ up to 3 expected errors
                                  truncQ = 20, # cut off if quality gets this low
@@ -90,7 +89,7 @@ kable(filtered_output,
 
 # this build error models from each of the samples
 errors_forward_reads <- learnErrors(filtered_reads_path,
-                                    multithread = FALSE)
+                                    multithread = TRUE)
 
 
 
@@ -112,7 +111,7 @@ names(dereplicated_forward_reads) <- sample_names
 
 # parameters adjusted based on recommendations for 454 data here:
 # https://benjjneb.github.io/dada2/
-#     faq.html#can-i-use-dada2-with-my-454-or-ion-torrent-data
+# faq.html#can-i-use-dada2-with-my-454-or-ion-torrent-data
 dada_forward_reads <- dada(dereplicated_forward_reads,
                            err = errors_forward_reads,
                            HOMOPOLYMER_GAP_PENALTY = -1, # reduce penalty bc 454
