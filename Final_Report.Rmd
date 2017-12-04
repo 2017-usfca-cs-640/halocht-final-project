@@ -1,7 +1,7 @@
 ---
-title: "Final Report: Your Title Here"
-author: "Don Francisco"
-date: "November 22, 2017"
+title: "Final Report: Life After Death- The Prevailing Microbial Species of Recently-Deceased Individuals"
+author: "Alfredo Hans Locht"
+date: "November 29, 2017"
 output:
     github_document: default
     word_document: default
@@ -28,6 +28,80 @@ Add about half a page here. In this section instead of first person (I/we), use 
 These are the methods you used to do your bioinformatic analyses analyses. Should probably be between 0.5 and 1 pages. At a very minimum should include citations for DADA2 and phyloseq if you are doing an amplicon study, or other citations as appropriate.
 
 # Results
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("dplyr")
+library("tidyr")
+library("knitr")
+library("ggplot2")
+load("output/Thanatomicrobiome_phyloseq.RData")
+
+```
+
+
+
+
+```{r}
+plot_richness(phyloseq_obj,
+              x = "collection_date_s",
+              measures = c("Shannon", "Simpson"),
+              color = "sample_description_s") +
+  xlab("Source of Sample") +
+  geom_jitter(width = 0.2) +
+  theme_bw()
+```
+
+
+
+```{r}
+gp_ch <- subset_taxa(phyloseq_obj, Phylum == "Firmicutes")
+plot_bar(gp_ch,
+  fill = "Family",
+  title = "Firmicutes Phyla Acrosss Distribution Across Samples")
+```
+
+```{r}
+gp_ch2 <- subset_taxa(phyloseq_obj, Phylum == "Actinobacteria")
+plot_bar(gp_ch2,
+  fill = "Family",
+  title = "Firmicutes Phyla Acrosss Distribution Across Samples")
+```
+
+
+```{r}
+gp_ch3 <- subset_taxa(phyloseq_obj, Class = "Chlostridia")
+plot_bar(gp_ch3,
+  fill = "Order",
+  title = "Firmicutes Phyla Acrosss Distribution Across Samples")
+```
+
+```{r}
+gpac <- subset_taxa(phyloseq_obj, Phylum == "Firmicutes")
+gpac <- prune_taxa(names(sort(taxa_sums(gpac),TRUE)[1:300]), gpac)
+plot_heatmap(phyloseq_obj,
+             method = "NMDS"
+             )
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
 
 ## Subsections are ok in the results section too
 

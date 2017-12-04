@@ -68,7 +68,7 @@ filtered_reads_path <- file.path(filter_path,
 filtered_output <- filterAndTrim(fwd = filenames_forward_reads,
                                  filt = filtered_reads_path,
                                  maxLen = 750,
-                                 minLen = 20,
+                                 minLen = 55,
                                  maxN = 0, # discard any seqs with Ns
                                  maxEE = 3, # allow w/ up to 3 expected errors
                                  truncQ = 20, # cut off if quality gets this low
@@ -138,7 +138,7 @@ hist(nchar(getSequences(sequence_table)),
 # Check for and remove chimeras
 sequence_table_nochim <- removeBimeraDenovo(sequence_table,
                                             method = "consensus",
-                                            multithread = FALSE,
+                                            multithread = TRUE,
                                             verbose = TRUE)
 
 # What percent of our reads are non-chimeric?
@@ -169,14 +169,14 @@ rownames(track) <- sample_names
 # produce nice markdown table of progress through the pipeline
 kable(track)
 
-
+write.csv(track, file = "output/track.csv")
 
 
 # assigns taxonomy to each sequence variant based on a supplied training set
 # made up of known sequences
 taxa <- assignTaxonomy(sequence_table_nochim,
                        "data/training/rdp_train_set_16.fa.gz",
-                       multithread = FALSE,
+                       multithread = TRUE,
                        tryRC = TRUE) # also check with seq reverse compliments
 
 # show the results of the taxonomy assignment
@@ -221,20 +221,17 @@ export_taxa_table_and_seqs(sequence_table_nochim,
 # and the `stringsAsFactors = FALSE` tells it not to assume that things are
 # categorical variables
 metadata_in <- read.table(paste0("data/metadata/",
-                                 "fierer_forensic_hand_mouse_SraRunTable.txt"),
+                                 "Thanatomicrobiome_SraRunTable.txt"),
                           sep = "\t",
                           header = TRUE,
                           stringsAsFactors = FALSE,
                           row.names = 6) # sets sample IDs to row names
 
-# read in the phylogeny, which was created from the fasta exported above
-# in Geneious by aligning the sequences with MAFFT and then building a
-# Maximum-Likelihood tree with RAxML
-tree_in <- read_tree("output/sequence_variants_MAFFT_RAxML.newick")
 
 # Construct phyloseq object (straightforward from dada2 outputs)
 phyloseq_obj <- phyloseq(otu_table(sequence_table_nochim,
                                    taxa_are_rows = FALSE), # sample-spp matrix
                          sample_data(metadata_in), # metadata for each sample
-                         tax_table(taxa), # taxonomy for each sequence variant
-                         phy_tree(tree_in)) # phylogeny from sequence variants
+                         tax_table(taxa)) # taxonomy for each sequence variant
+# Saving phyloseq object
+save(phyloseq_obj, file = "output/Thanatomicrobiome_phyloseq.RData")
