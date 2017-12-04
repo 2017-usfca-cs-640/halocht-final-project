@@ -33,7 +33,13 @@ This form also included information regarding the methods that would be used to 
 
 ## Sample origin and sequencing
 
-Add about half a page here. In this section instead of first person (I/we), use the authors of the paper you selected, since you'll just be describing what they did, based on the methods in their paper.
+### Cadaver Demographics
+
+The two cadavers donated to the center that were studied, STAFS 2011-016 and STAFS 2011-006, were both males of ages 68 and 52 respectively, of Caucasian descent, were corpses that had not been autopsied, and were considered to be in the early stages of decomposition as neither showed signs of bloat [@Hyde2013]. STAFS 2011-016 had a previous medical history relating to the cause of death (acute myocardial infarction), been frozen for 89 days, and had been subsequently defrosted in a fridge cooler for 143 days before being placed outside to decompose. STAFS 2011-006 did not have any pertaining medical history other than the cause of death (carbon monoxide poisoning), had been frozen for 13 days, and had subsequently defrosted for 6 days in a fridge cooler before decomposition placement. The time since death was unknown for both cadavers. 
+
+[@Hyde2013] further explains that because of the inherent randomness of the STAFS willed donations program, variables surrounding the acquisition and previous care of the cadavers were strikingly dissimilar between cadavers, but could not be controlled for. Other variables speaking towards the physical characteristics such as height and weight of each male cadaver were unknown, but estimated to be of average height and above-average weight in comparison to an average American male. The authors sought to reduce other possible confounding variables to the best of their knowledge [@Hyde2013].
+
+
 
 ## Computational
 
