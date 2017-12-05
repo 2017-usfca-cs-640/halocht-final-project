@@ -21,7 +21,14 @@ load("output/Thanatomicrobiome_phyloseq.RData")
 
 # Introduction
 
-Add about 2-3 pages here. Across the whole manuscript, you should cite at least 20 peer reviewed articles.
+The decomposition of the human body, albeit an unpleasantly gross process, can yield many clues which forensic scientists and law enforcement use [@Hauther2015] to solve criminal investigations. In the first four minutes after a human dies, the body is depleted of oxygen and carbon dioxide begins to dissolve in the blood, creating carbonic acid and lowering the pH of the blood, causing cells to lyse (autolysis) and release their contents [@Vass2001; @Vass2011]. These include many enzymes such a proteases and lipases which have digestive activities that begin the initial breakdown of bodily tissue and organs [@Vass2001; @Can2014; @Cockle2015]. Body organs which have high enzymatic activity such as the liver, or provide an aqueous environment that aids in providing the necessary ions for enzymatic catalysis such as the brain, tend to decompose faster than other organs, so there is a wide variability of rates at which specific sites on the body tends to decompose; however, the body can be characterized at each of the different stages of decomposition in summation [@Hyde2013; @Can2014; @Hyde2015]. The five stages of human decomposition include: Autolysis, Putrefaction, Bloat, Purge, and Saponification/Skeletonization. The rate at which is one occurs or lasts is highly dependent on a myriad of factors that up to date, have yet not been efficiently addressed [@Hyde2013; @Hyde2015].
+ 
+Characterization of each step in the decomposition process is critical to law enforcement, forensic scientists and many other disciplines alike because they use these markers to reveal information about the Post Mortem Interval (PMI), or better known as the time since death [@Bates2016; @Ferreira2013; @Hauther2015; @Hyde2013]. The time since death is a key contributor to solving investigations surrounding death because it will provide a time frame of the succession of events that lead up to that specific death. The PMI is obtained in a variety of ways using a variety of methods, but has previously relied on visual markers, chemical profile analyses,  measurement of enzymatic activity, carbon dioxide-carbon evolution and other predominantly visual or chemically-based methods of analyses [@Carter2008; @Ferreira2013; @Hauther2015; @Rosier2015; @Vass2011].
+
+Each method of course, has its corresponding error rate which can overestimate or underestimate the PMI and lead to erroneous results [@Cockle2015]. For example, very frequently, validation of a specific PMI calculation derived by one set of researchers in a particular geographic location is only valid at that particular location because when tested in significantly different ecological and temperature climate, the studies cannot match the results expected or previously reported [@Cockle2015].  Furthermore, researchers often argue about which factors directly influence the PMI, so a consensus on how to develop methods which would measure certain sets of factors, has not been reached [@Carter2008; @Cockle2015; @Ferreira2013]. It also does not help that the identified list of potential factors influencing PMI estimations include endogenous factors such as body and fat mass, penetrating trauma, drug use, disease profile, and clothing as well as exogenous factors such as temperature, vegetation in the area, humidity, type of soil, and scavenger and insect access all compile to precisely paint the rate and pattern of a decomposition picture [@Bates2016; @Carter2008; @Cockle2015; @Hauther2015]. What this picture is missing however, are the organisms directly responsible for the process.
+
+Interestingly, microbial communities have been outright dismissed by certain forensic scientists as having anything to do with the decomposition process of human corpses [@Carter2008], yet other sources explain that microbial decomposers are considered to have co-evolved with the presence of vertebrate corpses for the need to recycle complex biological molecules back into basic compounds and elements [@Metcalf2016]. 
+
 
 # Methods
 
@@ -51,29 +58,13 @@ Conditions surrounding the death of any given cadaver can have high variability 
 
 In order to establish a baseline of decomposition of both cadavers, they were initially qualified by a visual scoring system developed by [@Megyesi2005]. A summary of the system includes visible cues that might indicate at what step of the decomposition process a particular cadaver may be at. Using this qualitative method, both cadavers were considered to be in the early stages of decomposition as no bloat had yet occurred. This system was also used to identify the end-point of sampling when the purging of bodily fluids occurs; however, due to its qualitative nature, the cadavers did not spend an equal amount of time decomposing outside. 
 
-STAFS 2011-006 spent seven days out in September while STAFS 2011-016 spent fourteen days out in November. Because the body scoring system developed by [@Megyesi2005] is completely dependent on temperature, [@Hyde2013] retroactively calculated the heat-energy units for each cadaver which are a function of Accumulated Degree-Days (ADD), an arbitrary calculation of how much thermal energy a sample is exposed to dependent on ambient temperature and a chosen starting point. The results of the calculations were 197.14 heat-energy units for STAFS 2011-006 and 199.97 heat-energy units for STAFS 2011-016 when a thermal minimum of 4 degrees Celsius was chosen. Because November temperatures in Texas are less than September temperatures, it is logical to see that STAFS 2011-016 would probably have to spend twice as long outside in November to achieve the same level of decomposition as STAFS 2011-006 in September, but again, this is based on a visual and qualitative scoring index. Furthermore, the authors mention that choosing a different thermal minimum would result in differing calculations from the ones above [@Hyde2013].
+STAFS 2011-006 spent seven days out in September while STAFS 2011-016 spent fourteen days out in November. Because the body scoring system developed by [@Megyesi2005] is completely dependent on temperature, [@Hyde2013] retroactively calculated the heat-energy units for each cadaver which are a function of Accumulated Degree-Days (ADD), an arbitrary calculation of how much thermal energy a sample absorbs during a given time period, a maximum temperature and a chosen starting point. The results of the calculations were 197.14 heat-energy units for STAFS 2011-006 and 199.97 heat-energy units for STAFS 2011-016 when a thermal minimum of 4 degrees Celsius was chosen. Because November temperatures in Texas are less than September temperatures, it is logical to see that STAFS 2011-016 would probably have to spend twice as long outside in November to achieve the same level of decomposition as STAFS 2011-006 in September, but again, this is based on a visual and qualitative scoring index. Furthermore, the authors mention that choosing a different thermal minimum would result in differing calculations from the ones above [@Hyde2013].
 
 Other variables speaking towards the physical characteristics such as height and weight of each male cadaver were unknown, but estimated to be of average height and above-average weight in comparison to an average American male [@Hyde2013].
 
-## Computational
-
-These are the methods you used to do your bioinformatic analyses analyses. Should probably be between 0.5 and 1 pages. At a very minimum should include citations for DADA2 and phyloseq if you are doing an amplicon study, or other citations as appropriate.
-
 # Results
 
-```{r}
-plot_richness(phyloseq_obj,
-              x = "collection_date_s",
-              measures = c("Shannon", "Simpson"),
-              color = "sample_description_s") +
-  xlab("Source of Sample") +
-  geom_jitter(width = 0.2) +
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1))
-  theme_bw()
-```
-
-```{r}
+```{r alpha diversity measure all}
 plot_richness(phyloseq_obj,
               x = "sample_description_s",
               measures = c("Shannon", "Simpson"),
@@ -85,17 +76,35 @@ plot_richness(phyloseq_obj,
   theme_bw()
 ```
 
-```{r}
-gp_ch <- subset_taxa(phyloseq_obj, Phylum == "Firmicutes")
+```{r bacilli distribution across samples}
+gp_ch <- subset_taxa(phyloseq_obj, Class == "Bacilli")
 plot_bar(gp_ch,
   fill = "Family",
-  title = "Firmicutes Phyla Acrosss Distribution Across Samples")
+  title = "Bacilli Distribution Across Samples")
 ```
-
-```{r}
+```{r bacilli diversity over time}
 plot_richness(gp_ch,
               x = "sample_description_s",
-              measures = c("Shannon", "Simpson"),
+              measures = c("Simpson"),
+              color = "collection_date_s") +
+  xlab("Source of Sample") +
+  geom_jitter(width = 0.2) +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1))
+  theme_bw()
+```
+
+```{r enterobacteriales distribution across samples}
+gp_ch2 <- subset_taxa(phyloseq_obj, Order == "Enterobacteriales")
+plot_bar(gp_ch2,
+  fill = "Family",
+  title = "Enterobacteriales Distribution Across Samples")
+```
+
+```{r enterbacteriales diversity over time}
+plot_richness(gp_ch2,
+              x = "sample_description_s",
+              measures = c("Simpson"),
               color = "collection_date_s") +
   xlab("Source of Sample") +
   geom_jitter(width = 0.2) +
@@ -105,50 +114,24 @@ plot_richness(gp_ch,
 ```
 
 
-
-
-
-```{r}
-gp_ch2 <- subset_taxa(phyloseq_obj, Phylum == "Actinobacteria")
-plot_bar(gp_ch2,
-  fill = "Family",
-  title = "Actinobacteria Phyla Acrosss Distribution Across Samples")
-```
-
-
-```{r}
-gp_ch3 <- subset_taxa(phyloseq_obj, Class = "Chlostridia")
+```{r clostridia}
+gp_ch3 <- subset_taxa(phyloseq_obj, Class == "Clostridia")
 plot_bar(gp_ch3,
-  fill = "Order",
-  title = "Firmicutes Phyla Acrosss Distribution Across Samples")
+  fill = "Family",
+  title = "Clostridia Distribution Across Samples")
 ```
 
 ```{r}
-gpac <- subset_taxa(phyloseq_obj, Phylum == "Firmicutes")
-gpac <- prune_taxa(names(sort(taxa_sums(gpac),TRUE)[1:300]), gpac)
-plot_heatmap(phyloseq_obj,
-             method = "NMDS"
-             )
-
-
-
-
-
-
-
-
-
+plot_richness(gp_ch3,
+              x = "sample_description_s",
+              measures = c("Simpson"),
+              color = "collection_date_s") +
+  xlab("Source of Sample") +
+  geom_jitter(width = 0.2) +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1))
+  theme_bw()
 ```
-
-
-
-
-
-
-
-
-
-
 
 ## Subsections are ok in the results section too
 
