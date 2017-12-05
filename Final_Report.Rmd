@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library("dplyr")
 library("tidyr")
 library("knitr")
+library ("phyloseq")
 library("ggplot2")
 load("output/Thanatomicrobiome_phyloseq.RData")
 
@@ -123,7 +124,7 @@ plot_richness(gp_ch2,
                                    hjust = 1))
   theme_bw()
 ```
-
+Figure 5- Simpson diversity decreases for Enterobacteriales usually in the later samples. 
 
 ```{r clostridia}
 gp_ch3 <- subset_taxa(phyloseq_obj, Class == "Clostridia")
