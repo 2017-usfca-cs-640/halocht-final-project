@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library("dplyr")
 library("tidyr")
 library("knitr")
-library ("phyloseq")
+library("phyloseq")
 library("ggplot2")
 load("output/Thanatomicrobiome_phyloseq.RData")
 
