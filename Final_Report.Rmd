@@ -14,7 +14,6 @@ library("dplyr")
 library("tidyr")
 library("knitr")
 library("ggplot2")
-library("png")
 load("output/Thanatomicrobiome_phyloseq.RData")
 
 ```
@@ -64,6 +63,7 @@ Other variables speaking towards the physical characteristics such as height and
 
 # Results
 
+### Figure 1: Alpha Diversity (Shannon and Simpson Index)
 ```{r alpha diversity measure all}
 plot_richness(phyloseq_obj,
               x = "sample_description_s",
@@ -76,12 +76,19 @@ plot_richness(phyloseq_obj,
   theme_bw()
 ```
 
+Figure 1- Alpha diversity of the Shannon Index is displayed in figure 1 and relates an overall high diversity across both cadavers. Body006 body cavity sample did not yield any sequence variants so the fact that there is zero diversity is logical. For Shannon indices, the diversity of samples is more varied.
+
+### Figure 2 Bacilli Distribution Across Samples
 ```{r bacilli distribution across samples}
 gp_ch <- subset_taxa(phyloseq_obj, Class == "Bacilli")
 plot_bar(gp_ch,
   fill = "Family",
   title = "Bacilli Distribution Across Samples")
 ```
+Figure 2- Shows Bacilli Class Distribution across samples. Of interest, Staphylococcaceae are only present in one sample, SRR1016419, a body016 sample taken orally on 03Nov2011 at the pre-bloat sampling.
+
+
+### Figure 3- Bacilli Simpson Diversity Over Time
 ```{r bacilli diversity over time}
 plot_richness(gp_ch,
               x = "sample_description_s",
@@ -93,14 +100,18 @@ plot_richness(gp_ch,
                                    hjust = 1))
   theme_bw()
 ```
+Figure 3- Shows that diversity of bacilli were mainly low in body006 specific organs, but remained high in the body cavity. For body016, diversity remained high.
 
+### Figure 4- Enterbacteriales Distribution Across Samples
 ```{r enterobacteriales distribution across samples}
 gp_ch2 <- subset_taxa(phyloseq_obj, Order == "Enterobacteriales")
 plot_bar(gp_ch2,
   fill = "Family",
   title = "Enterobacteriales Distribution Across Samples")
 ```
+Figure 4- Shows that enterbacteriaceae are predominantly present in samples 09, 11, 18, 21 and 22 which correspond to which all correspond to the later end-bloat samples except for 21 which is a fecal sample from body016.
 
+### Figure 5 Enterobacteriales Simpson Diversity Over Time
 ```{r enterbacteriales diversity over time}
 plot_richness(gp_ch2,
               x = "sample_description_s",
@@ -144,7 +155,7 @@ plot_richness(gp_ch3,
 # unclear.
 ```
 
-In addition to a minimum of 5-10 figures/tables (and associated captions), you should include sufficient text in this section to describe what your findings were. Remember that in the results section you just describe what you found, but you don't interpret it - that happens in the discussion. 2-3 pages.
+
 
 # Discussion
 
