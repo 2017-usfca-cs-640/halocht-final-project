@@ -41,7 +41,13 @@ The two cadavers donated to the center that were studied, STAFS 2011-016 and STA
 
 ### Sample Acquisition
 
+### Inherent and Inevitable Variability
 
+Conditions surrounding the death of any given cadaver can have high variability in confounding factors which can directly influence the rate and pattern of decomposition [@Bates2016; @Cockle2015; @Ferreira2013; @Hauther2015; @Hyde2013; @Vass2011]. Intrinsic factors such as cause of death, physical trauma, and postmortem care can directly interact with a number of other, extrinsic factors such as temperature and humidity of environment in manners which have not yet been efficiently characterized [@Cockle2015]. [@Hyde2013] forewarn that because of the inherent inconsistency of the STAFS willed donations program (cadavers can be obtained on a random or unexpected basis) and the associated complications in conducting studies on cadavers, data acquired for both cadavers cannot be compared directly but rather, should act as a complimentary set of data. Although the authors sought to control or reduce the amount of confounding variables to the best of their knowledge, they were able to identify some of the limiting qualities of their study. These disclaimers are investigated below: 
+
+In order to establish a baseline of decomposition of both cadavers, they were initially qualified by a visual scoring system developed by [@Megyesi2005]. A summary of the system includes visible cues that might indicate at what step of the decomposition process a particular cadaver may be at. Using this qualitative method, both cadavers were considered to be in the early stages of decomposition as no bloat had occurred This system was used to calculate PMI and directly relies on temperature  for assessing the end of   Other variables speaking towards the physical characteristics such as height and weight of each male cadaver were unknown, but estimated to be of average height and above-average weight in comparison to an average American male. The authors sought to control or reduce other possible confounding variables to the best of their knowledge [@Hyde2013]:
+
+One manner in which they were able to control the temperature of decomposition was through the assignation of Accumulated Degree-Days (ADD) which quantify the amount of heat-energy units 
 
 ## Computational
 
