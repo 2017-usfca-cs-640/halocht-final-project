@@ -125,8 +125,8 @@ dada_forward_reads
 # produce the 'site by species matrix'
 sequence_table <- makeSequenceTable(dada_forward_reads)
 
-# The output table has `r nrow(sequence_table)` rows (samples) 
-# and `r ncol(sequence_table)` columns (sequence variants). 
+# The output table has `r nrow(sequence_table)` rows (samples)
+# and `r ncol(sequence_table)` columns (sequence variants).
 # Notice how we can embed R code directly in our markdown text.
 
 
@@ -147,7 +147,7 @@ sequence_table_nochim <- removeBimeraDenovo(sequence_table,
 non_chimeric_reads <- round(sum(sequence_table_nochim) / sum(sequence_table),
                             digits = 4) * 100
 
-# After removing chimeras, we were left 
+# After removing chimeras, we were left
 # with `r non_chimeric_reads`% of our cleaned reads.
 
 
