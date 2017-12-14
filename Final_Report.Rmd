@@ -21,9 +21,9 @@ load("output/Thanatomicrobiome_phyloseq.RData")
 
 # Introduction
 
-The decomposition of the human body, albeit an unpleasantly gross process, can yield many clues which forensic scientists and law enforcement use [@Hauther2015] to solve criminal investigations. In the first four minutes after a human dies, the body is depleted of oxygen and carbon dioxide begins to dissolve in the blood, creating carbonic acid and lowering the pH of the blood, causing cells to lyse (autolysis) and release their contents [@Vass2001; @Vass2011]. These include many enzymes such a proteases and lipases which have digestive activities that begin the initial breakdown of bodily tissue and organs [@Vass2001; @Can2014; @Cockle2015]. Body organs which have high enzymatic activity such as the liver, or provide an aqueous environment that aids in providing the necessary ions for enzymatic catalysis such as the brain, tend to decompose faster than other organs, so there is a wide variability of rates at which specific sites on the body tends to decompose; however, the body can be characterized at each of the different stages of decomposition in summation [@Hyde2013; @Can2014; @Hyde2015]. The five stages of human decomposition include: Autolysis, Putrefaction, Bloat, Purge, and Saponification/Skeletonization. The rate at which is one occurs or lasts is highly dependent on a myriad of factors that up to date, have yet not been efficiently addressed [@Hyde2013; @Hyde2015].
+The decomposition of the human body, albeit an unpleasantly gross process, can yield many clues which forensic scientists and law enforcement use [@Hauther2015] to solve criminal investigations. In the first four minutes after a human dies, the body is depleted of oxygen and carbon dioxide begins to dissolve in the blood, creating carbonic acid and lowering the pH of the blood, causing cells to lyse (autolysis) and release their contents [@Vass2001; @Vass2011]. These include many enzymes such a proteases and lipases which have digestive activities that begin the initial breakdown of bodily tissue and organs [@Vass2001; @Can2014; @Cockle2015]. Body organs which have high enzymatic activity such as the liver, or provide an aqueous environment that aids in providing the necessary ions for enzymatic catalysis such as the brain, tend to decompose faster than other organs, so there is a wide variability of rates at which specific sites on the body tends to decompose; however, the body can be characterized at each of the different stages of decomposition in summation [@Hyde2013; @Can2014; @Hyde2015]. The five stages of human decomposition include: Fresh which will be termed Autolysis, Putrefaction/Bloat, Purge (Active Decay), Advanced Decay and Skeletonization. The rate at which is one occurs or lasts is highly dependent on a myriad of factors that up to date, have yet not been efficiently addressed [@Hyde2013; @Hyde2015].
  
-Characterization of each step in the decomposition process is critical to law enforcement, forensic scientists and many other disciplines alike because they use these markers to reveal information about the Post Mortem Interval (PMI), or better known as the time since death [@Bates2016; @Ferreira2013; @Hauther2015; @Hyde2013]. The time since death is a key contributor to solving investigations surrounding death because it will provide a time frame of the succession of events that lead up to that specific death. The PMI is obtained in a variety of ways using a variety of methods, but has previously relied on visual markers, chemical profile analyses,  measurement of enzymatic activity, carbon dioxide-carbon evolution and other predominantly visual or chemically-based methods of analyses [@Carter2008; @Ferreira2013; @Hauther2015; @Rosier2015; @Vass2011].
+Characterization of each step in the decomposition process is critical to law enforcement, forensic scientists and many other disciplines alike because they use these markers to reveal information about the Post Mortem Interval (PMI), or better known as the time since death [@Bates2016; @Ferreira2013; @Hauther2015; @Hyde2013]. The time since death is a key contributor to solving investigations surrounding death because it will provide a c The PMI is obtained in a variety of ways using a variety of methods, but has previously relied on visual markers, chemical profile analyses,  measurement of enzymatic activity, carbon dioxide-carbon evolution and other predominantly visual or chemically-based methods of analyses [@Carter2008; @Ferreira2013; @Hauther2015; @Rosier2015; @Vass2011].
 
 Each method of course, has its corresponding error rate which can overestimate or underestimate the PMI and lead to erroneous results [@Cockle2015]. For example, very frequently, validation of a specific PMI calculation derived by one set of researchers in a particular geographic location is only valid at that particular location because when tested in significantly different ecological and temperature climate, the studies cannot match the results expected or previously reported [@Cockle2015].  Furthermore, researchers often argue about which factors directly influence the PMI, so a consensus on how to develop methods which would measure certain sets of factors, has not been reached [@Carter2008; @Cockle2015; @Ferreira2013]. It also does not help that the identified list of potential factors influencing PMI estimations include endogenous factors such as body and fat mass, penetrating trauma, drug use, disease profile, and clothing as well as exogenous factors such as temperature, vegetation in the area, humidity, type of soil, and scavenger and insect access all compile to precisely paint the rate and pattern of a decomposition picture [@Bates2016; @Carter2008; @Cockle2015; @Hauther2015]. What this picture is missing however, are the organisms directly responsible for the process.
 
@@ -64,8 +64,12 @@ Other variables speaking towards the physical characteristics such as height and
 
 # Results
 
+```{r melt phyloseq object for dplyr}
+melted_obj<- psmelt(phyloseq_obj)
+```
+
 ### Figure 1: Alpha Diversity (Shannon and Simpson Index)
-```{r alpha diversity measure all}
+```{r alpha diversity measure all, message = FALSE, echo = FALSE, warning = FALSE}
 plot_richness(phyloseq_obj,
               x = "sample_description_s",
               measures = c("Shannon", "Simpson"),
@@ -79,11 +83,19 @@ plot_richness(phyloseq_obj,
 
 Figure 1- Alpha diversity of the Shannon Index is displayed in figure 1 and relates an overall high diversity across both cadavers. Body006 body cavity sample did not yield any sequence variants so the fact that there is zero diversity is logical. For Shannon indices, the diversity of samples is more varied.
 
+```{r diversity over time}
+time_samples <- melted_obj %>%
+  select(OTU, Sample, Abundance, collection_date_s, sample_description_s,)
+  
+```
+
+
+
 ### Figure 2 Bacilli Distribution Across Samples
 ```{r bacilli distribution across samples}
-gp_ch <- subset_taxa(phyloseq_obj, Class == "Bacilli")
+gp_ch <- subset_taxa(phyloseq_obj, Phylum == "Firmicutes")
 plot_bar(gp_ch,
-  fill = "Family",
+  fill = "Genus",
   title = "Bacilli Distribution Across Samples")
 ```
 Figure 2- Shows Bacilli Class Distribution across samples. Of interest, Staphylococcaceae are only present in one sample, SRR1016419, a body016 sample taken orally on 03Nov2011 at the pre-bloat sampling.
@@ -93,7 +105,7 @@ Figure 2- Shows Bacilli Class Distribution across samples. Of interest, Staphylo
 ```{r bacilli diversity over time}
 plot_richness(gp_ch,
               x = "sample_description_s",
-              measures = c("Simpson"),
+              measures = c("Shannon","Simpson"),
               color = "collection_date_s") +
   xlab("Source of Sample") +
   geom_jitter(width = 0.2) +
@@ -105,7 +117,7 @@ Figure 3- Shows that diversity of bacilli were mainly low in body006 specific or
 
 ### Figure 4- Enterbacteriales Distribution Across Samples
 ```{r enterobacteriales distribution across samples}
-gp_ch2 <- subset_taxa(phyloseq_obj, Order == "Enterobacteriales")
+gp_ch2 <- subset_taxa(phyloseq_obj, Phylum == "Proteobacteria")
 plot_bar(gp_ch2,
   fill = "Family",
   title = "Enterobacteriales Distribution Across Samples")
@@ -116,7 +128,7 @@ Figure 4- Shows that enterbacteriaceae are predominantly present in samples 09, 
 ```{r enterbacteriales diversity over time}
 plot_richness(gp_ch2,
               x = "sample_description_s",
-              measures = c("Simpson"),
+              measures = c("Shannon", "Simpson"),
               color = "collection_date_s") +
   xlab("Source of Sample") +
   geom_jitter(width = 0.2) +
@@ -129,14 +141,14 @@ Figure 5- Simpson diversity decreases for Enterobacteriales usually in the later
 ```{r clostridia}
 gp_ch3 <- subset_taxa(phyloseq_obj, Class == "Clostridia")
 plot_bar(gp_ch3,
-  fill = "Family",
+  fill = "Genus",
   title = "Clostridia Distribution Across Samples")
 ```
 
 ```{r}
 plot_richness(gp_ch3,
               x = "sample_description_s",
-              measures = c("Simpson"),
+              measures = c("Shannon","Simpson"),
               color = "collection_date_s") +
   xlab("Source of Sample") +
   geom_jitter(width = 0.2) +
@@ -145,16 +157,40 @@ plot_richness(gp_ch3,
   theme_bw()
 ```
 
-## Subsections are ok in the results section too
 
-```{r your-code-here}
-# Add code chunks as needed for your analyses
-# For most analyses, I would recommend splitting the
-# intensive computational part into a seperate R script file
-# and then just load your libraries and the data object here
-# using the `load()` function. Ask me for clarification if this is
-# unclear.
+```{r}
+gp_ch4 <- subset_taxa(phyloseq_obj, Phylum == "Bacteroidetes")
+plot_bar(gp_ch4,
+  fill = "Genus",
+  title = "Bacteroidetes Distribution Across Samples")
 ```
+
+```{r}
+plot_richness(gp_ch4,
+              x = "sample_description_s",
+              measures = c("Shannon","Simpson"),
+              color = "collection_date_s") +
+  xlab("Source of Sample") +
+  geom_jitter(width = 0.2) +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1))
+  theme_bw()
+```
+
+
+
+
+
+---
+#Simpson's index is a similarity index (the higher the value the lower in diversity). If you want to use it as a diversity index you can subtract it to 1 (i.e. 1-S). Conversely, the value of the Shannon function (it is not an index) increases as diversity increases.
+
+#The Shannon index is an information statistic index, which means it assumes all species are represented in a sample and that they are randomly sampled. Can you point out any problems in these assumptions?
+
+#The Simpson index is a dominance index because it gives more weight to common or dominant species. In this case, a few rare species with only a few representatives will not affect the diversity. Can you point out any problems in these assumptions?
+
+---
+
+
 
 
 
