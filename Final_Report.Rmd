@@ -21,7 +21,7 @@ load("output/Thanatomicrobiome_phyloseq.RData")
 
 # Introduction
 
-The decomposition of the human body, albeit an unpleasantly gross process, can yield many clues which forensic scientists and law enforcement use [@Hauther2015] to solve criminal investigations. In the first four minutes after a human dies, the body is depleted of oxygen and carbon dioxide begins to dissolve in the blood, creating carbonic acid and lowering the pH of the blood, causing cells to lyse (autolysis) and release their contents [@Vass2001; @Vass2011]. These include many enzymes such a proteases and lipases which have digestive activities that begin the initial breakdown of bodily tissue and organs [@Vass2001; @Can2014; @Cockle2015]. Body organs which have high enzymatic activity such as the liver, or provide an aqueous environment that aids in providing the necessary ions for enzymatic catalysis such as the brain, tend to decompose faster than other organs, so there is a wide variability of rates at which specific sites on the body tends to decompose; however, the body can be characterized at each of the different stages of decomposition in summation [@Hyde2013; @Can2014; @Hyde2015]. The five stages of human decomposition include: Fresh which will be termed Autolysis, Putrefaction/Bloat, Purge (Active Decay), Advanced Decay and Skeletonization. The rate at which is one occurs or lasts is highly dependent on a myriad of factors that up to date, have yet not been efficiently addressed [@Hyde2013; @Hyde2015].
+The decomposition of the human body can yield many clues which forensic scientists and law enforcement use [@Hauther2015] to solve criminal investigations. In the first four minutes after a human dies, the body is depleted of oxygen and carbon dioxide begins to dissolve in the blood, creating carbonic acid and lowering the pH of the blood, causing cells to lyse (autolysis) and release their contents [@Vass2001; @Vass2011]. These include many enzymes such a proteases and lipases which have digestive activities that begin the initial breakdown of bodily tissue and organs [@Vass2001; @Can2014; @Cockle2015]. Body organs which have high enzymatic activity such as the liver, or provide an aqueous environment that aids in providing the necessary ions for enzymatic catalysis such as the brain, tend to decompose faster than other organs, so there is a wide variability of rates at which specific sites on the body tends to decompose; however, the body can be characterized at each of the different stages of decomposition in summation [@Hyde2013; @Can2014; @Hyde2015]. The five stages of human decomposition include: Fresh which will be termed Autolysis, Putrefaction/Bloat, Purge (Active Decay), Advanced Decay and Skeletonization. The rate at which is one occurs or lasts is highly dependent on a myriad of factors that up to date, have yet not been efficiently addressed [@Hyde2013; @Hyde2015].
  
 Characterization of each step in the decomposition process is critical to law enforcement, forensic scientists and many other disciplines alike because they use these markers to reveal information about the Post Mortem Interval (PMI), or better known as the time since death [@Bates2016; @Ferreira2013; @Hauther2015; @Hyde2013]. The time since death is a key contributor to solving investigations surrounding death because it will provide a c The PMI is obtained in a variety of ways using a variety of methods, but has previously relied on visual markers, chemical profile analyses,  measurement of enzymatic activity, carbon dioxide-carbon evolution and other predominantly visual or chemically-based methods of analyses [@Carter2008; @Ferreira2013; @Hauther2015; @Rosier2015; @Vass2011].
 
@@ -83,12 +83,29 @@ plot_richness(phyloseq_obj,
 
 Figure 1- Alpha diversity of the Shannon Index is displayed in figure 1 and relates an overall high diversity across both cadavers. Body006 body cavity sample did not yield any sequence variants so the fact that there is zero diversity is logical. For Shannon indices, the diversity of samples is more varied.
 
-```{r diversity over time}
-time_samples <- melted_obj %>%
-  select(OTU, Sample, Abundance, collection_date_s, sample_description_s,)
+```{r 100 most abundant samples}
+abundant_samples <- melted_obj %>%
+  group_by(Sample, Abundance, collection_date_s, sample_description_s, Phylum, Family, Class, Genus) %>%
+  summarize(mean_count = mean(Abundance)) %>%
+  arrange(desc(mean_count)) %>%
+  head(n = 50)
+ 
+abundant_samples %>%
+  kable()
   
 ```
 
+```{r}
+abundant_samples %>%
+  filter(Phylum == "Firmicutes") %>%
+ggplot(aes(x = sample_description_s,
+             y = Abundance,
+           fill = collection_date_s)) +
+    geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) 
+   
+```
 
 
 ### Figure 2 Bacilli Distribution Across Samples
