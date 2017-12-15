@@ -53,6 +53,25 @@ Pre-bloat samples were taken as either swabs or “scrapes” from the mouth and
 
 The samples obtained from different parts of the body or organs were sampled whenever those body parts or organs still existed. Specifically, STAFs 2011-016 no longer retained any evidence of a sigmoidal colon at the end-bloat sampling.
 
+# Computational
+
+The data used for this project was produced by downloading 16S amplicon data from SRA study number: SRP031900 and the respective table of metadata. Next, the SRA toolkit was downloaded from NCBI in order to perform a fastq dump to work with the files on a personal computer.
+
+After downloading the files with the SRA toolkit, the files were processed through the DADA2 pipeline. This pipeline creates a working script to create a phyloseq object, which is then used to analyze comprehensive sample sets that are directly tied to their metadat, OTU classification, and oftentimes, Phylogenetic tree. Both forward and reverse reads are plotted with their respective quality profiles, trimming on either side with the FilterandTrim function. For the purposes of this study, only the forward reads were used. The FilterandTrim parameters are listed below:
+maxLen = 225,
+maxN = 0,
+maxEE = 3,
+truncQ = 2,
+rm.phix = TRUE,
+compress = TRUE,
+multithread = FALSE
+
+Following FilterandTrim, DADA2 relies on the parametric error model to calculate the expected error in each of the reads acquired. The DADA2 plotErrors function will predict the error model from the data, and subsequently alternates both error rate prediction and inference of sample composition until these two factors converge at a single, unfluctating solution. These estimated error rates will then be plotted along with their error models. Verification of successful error modeling will provide the user with confidence in the parameters they set for trimming data.
+
+Next, The DADA2 pipeline will dereplicate the sequences and create a table of all unique sequence variants present in the sample set. The unique sequence variants consists of all of the identical reads and their corresponding value of reads (How many reads of a particular sequence variant exist). Once these unique sequences are identified, the chimeras present in them will be removed, so that OTU classification can be accomplished. At this point, the DADA pipeline ends, and the phyloseq package takes over to complete the creation of a phyloseq object.
+
+Taking the output data from the DADA2 pipelne, phyloseq will combine the OTU classification table, the metadata table, and a taxonomy table all into one nice and neat data frame which can be used with the remaining tools of the Phyloseq package and visual mapping guides such as ggplot2 to create analyses and figures based on the sequencing data downloaded.
+
 ### Limting Disclaimers
 
 Conditions surrounding the death of any given cadaver can have high variability in confounding factors which can directly influence the rate and pattern of decomposition [@Bates2016; @Cockle2015; @Ferreira2013; @Hauther2015; @Hyde2013; @Vass2011]. Intrinsic factors such as cause of death, physical trauma, and postmortem care can directly interact with a number of other, extrinsic factors such as temperature and humidity of environment in manners which have not yet been efficiently characterized [@Cockle2015]. [@Hyde2013] forewarn that because of the inherent inconsistency of the STAFS willed donations program (cadavers can be obtained on a random or unexpected basis) and the associated complications in conducting decompositional studies on cadavers, data acquired for both cadavers cannot be compared directly but rather, should act as a complimentary set of data. Although the authors sought to control or reduce the amount of confounding variables to the best of their knowledge, they were able to identify some of the limiting qualities of their study. These disclaimers are investigated below: 
@@ -211,6 +230,9 @@ Figure 8 Description: Because all samples from 08Sep20 were essentially removed 
 
 # Discussion
 
+## Importance of Shannon Function and Simpson Index for Alpha Diversity
+
+Due to the fact that our 
 
 ---
 #Simpson's index is a similarity index (the higher the value the lower in diversity). If you want to use it as a diversity index you can subtract it to 1 (i.e. 1-S). Conversely, the value of the Shannon function (it is not an index) increases as diversity increases.
