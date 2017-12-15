@@ -1,14 +1,14 @@
 ---
-title: "Final Report: Life After Death- The Prevailing Microbial Species of Recently-Deceased Individuals"
-author: "Alfredo Hans Locht"
-date: "November 29, 2017"
+title: "Final Report: Life After Death- Identifying microbiotic signatures in decomposing cadavers"
+author: "Alfredo H. Locht"
+date: "14Dec2017"
 output:
     github_document: default
     word_document: default
 bibliography: references.bib
 csl: bioinformatics.csl
 ---
-```{r setup, include=FALSE}
+```{r library setup and phyloseq_obj load; will stop if phyloseq_obj does not load include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library("dplyr")
 library("tidyr")
@@ -17,6 +17,7 @@ library("phyloseq")
 library("ggplot2")
 load("output/Thanatomicrobiome_phyloseq.RData")
 
+stopifnot(exists("phyloseq_obj"))
 ```
 
 # Introduction
@@ -65,7 +66,7 @@ Other variables speaking towards the physical characteristics such as height and
 # Results
 
 ```{r melt phyloseq object for dplyr}
-melted_obj<- psmelt(phyloseq_obj)
+melted_obj <- psmelt(phyloseq_obj)
 ```
 
 ### Figure 1: Alpha Diversity (Shannon and Simpson Index)
@@ -76,124 +77,178 @@ plot_richness(phyloseq_obj,
               color = "collection_date_s") +
   xlab("Source of Sample") +
   geom_jitter(width = 0.2) +
+  theme_dark() +
   theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1))
-  theme_bw()
+                                   hjust = 1)) +
+  ggtitle("Shannon and Simpson Alpha Diversity")
 ```
+Figure 1- Alpha diversity of the entire sample set, calculated by the Shannon function and Simpson index is displayed in Figure 1. Overall values for both measures of diversity are high for most samples except for in body006 and body016 cavity samples. Note the trends in the data which show that diversity for oral samples in body006 increase while diversity for oral samples in body016 decrease. These are important baselines to consider and establish because each cadaver has a significantly different starting diversity While no comparison addressing differences or similarites between cadavers will be made in the rest of the study, individualistic trends will be assessed to attempt to understand how the microbial communities of these two cadavers changes over time.
 
-Figure 1- Alpha diversity of the Shannon Index is displayed in figure 1 and relates an overall high diversity across both cadavers. Body006 body cavity sample did not yield any sequence variants so the fact that there is zero diversity is logical. For Shannon indices, the diversity of samples is more varied.
-
-```{r 100 most abundant samples}
-abundant_samples <- melted_obj %>%
+### Table 1: OTUs with Abundance > 1
+```{r 100 most abundant samples, message = FALSE, echo = FALSE, warning = FALSE}
+topabundant<- melted_obj %>%
   group_by(Sample, Abundance, collection_date_s, sample_description_s, Phylum, Family, Class, Genus) %>%
   summarize(mean_count = mean(Abundance)) %>%
   arrange(desc(mean_count)) %>%
-  head(n = 50)
+  head(n = 289)
  
-abundant_samples %>%
+topabundant %>%
   kable()
-  
 ```
 
-```{r}
-abundant_samples %>%
+### Figure 2: Firmicutes Phyla Abundance
+```{r abundance of firmicutes phyla across time,message = FALSE, echo = FALSE, warning = FALSE}
+topabundant %>%
   filter(Phylum == "Firmicutes") %>%
 ggplot(aes(x = sample_description_s,
-             y = Abundance,
+           y = Abundance,
            fill = collection_date_s)) +
     geom_col(position = "dodge") +
   theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1)) 
-   
+                                   hjust = 1)) +
+  ggtitle("Firmicutes Phyla Abundance")
 ```
+Figure 2 Description:
+
+### Figure 3: Firmicutes Genera at Pre and End Bloat
+```{r changes in firmicutes genera, message = FALSE, echo = FALSE, warning = FALSE}
+topabundant %>%
+  filter(Phylum == "Firmicutes") %>%
+ggplot(aes(x = collection_date_s,
+           y = Abundance,
+           fill = Genus)) +
+    geom_col(position = "stack") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) +
+  ggtitle("Firmicutes Genera at Pre and End Bloat")
+```
+Figure 3 Description:
+
+### Figure 4: Comparison of Firmicutes Classes per Sample Type
+```{r firmicutes classes of different sample types, message = FALSE, echo = FALSE, warning = FALSE}
+topabundant  %>%
+  filter(Phylum == "Firmicutes") %>%
+ggplot(aes(x = collection_date_s,
+           y = Abundance,
+           fill = sample_description_s)) +
+    geom_col(position = "dodge") +
+  facet_grid(~Class) +
+  theme_dark() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) +
+ggtitle("Comparison of Firmicutes Classes")
+```
+Figure 4 Description:
 
 
-### Figure 2 Bacilli Distribution Across Samples
-```{r bacilli distribution across samples}
-gp_ch <- subset_taxa(phyloseq_obj, Phylum == "Firmicutes")
-plot_bar(gp_ch,
-  fill = "Genus",
-  title = "Bacilli Distribution Across Samples")
+### Figure 5: Comparison of Firmicutes Classes at Pre and End Bloat
+```{r visual ratios of different classes in the firmicutes phyla, message = FALSE, echo = FALSE, warning = FALSE}
+topabundant %>%
+  filter(Phylum == "Firmicutes") %>%
+ggplot(aes(x = collection_date_s,
+           y = Abundance,
+           fill = Class)) +
+    geom_col(position = "stack") +
+  facet_grid(~sample_description_s) +
+  theme_dark() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) +
+  ggtitle("Comparison of Firmicutes Classes Ratios")
 ```
+Figure 5 Description: 
+
+
+### Figure 6- Bacilli Class Alpha Diversity
+```{r bacilli class alph diversity over time, message = FALSE, echo = FALSE, warning = FALSE}
+basil <- subset_taxa(phyloseq_obj, Class == "Bacilli")
+plot_richness(basil,
+              x = "sample_description_s",
+              measures = c("Shannon","Simpson"),
+              color = "collection_date_s") +
+  xlab("Source of Sample") +
+  geom_jitter(width = 0.2) +
+  theme_dark() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) +
+  ggtitle("Bacilli Alpha Diversity")
+  
+```
+Figure 6 Description:  Shows that diversity of bacilli were mainly low in body006 specific organs, but remained high in the body cavity. For body016, diversity remained high.
+
+### Figure 7: Proteobacteria Phyla Abundance
+```{r abundance of proteobacteria phyla,message = FALSE, echo = FALSE, warning = FALSE}
+topabundant %>%
+  filter(Phylum == "Proteobacteria") %>%
+ggplot(aes(x = sample_description_s,
+           y = Abundance,
+           fill = collection_date_s)) +
+    geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) +
+  ggtitle("Abundance of Proteobacteria Phyla")
+```
+Figure 7 Description: 
+
+### Figure 8: Proteobacteria Families per Sample Type
+```{r comparison of proteobacteria families per sample type, message = FALSE, echo = FALSE, warning = FALSE}
+topabundant %>%
+  filter(Phylum == "Proteobacteria") %>%
+ggplot(aes(x = collection_date_s,
+           y = Abundance,
+           fill = Family)) +
+    geom_col(position = "dodge") +
+  facet_wrap(~sample_description_s) +
+  theme_dark() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) +
+  ggtitle("Comparison of Proteobacteria Families")
+```
+Figure 8 Description: 
+
+### Figure 9: Bacteroidetes Genera Abundance
+```{r abundance of bacteroidetes phyla across time,message = FALSE, echo = FALSE, warning = FALSE}
+topabundant %>%
+  filter(Phylum == "Bacteroidetes") %>%
+ggplot(aes(x = sample_description_s,
+           y = Abundance,
+           fill = Genus)) +
+    geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) +
+  ggtitle("Bacteroidetes Genera Abundance")
+```
+Figure 9 Description: 
+
+
+
+### Figure 10: Bacteroidetes Phyla Alpha Diversity
+```{r bacteroidetes phyla shannon and simpson diversity, message = FALSE, echo = FALSE, warning = FALSE}
+steroid <- subset_taxa(phyloseq_obj, Phylum == "Bacteroidetes")
+plot_richness(steroid,
+              x = "sample_description_s",
+              measures = c("Shannon","Simpson"),
+              color = "collection_date_s") +
+  xlab("Source of Sample") +
+  geom_jitter(width = 0.2) +
+  theme(axis.text.x = element_text(angle = 90,
+                                   hjust = 1)) +
+  theme_dark()
+```
+Figure 10 Description:
+
+
+
+
+
+
+
+
+
+
+
+
 Figure 2- Shows Bacilli Class Distribution across samples. Of interest, Staphylococcaceae are only present in one sample, SRR1016419, a body016 sample taken orally on 03Nov2011 at the pre-bloat sampling.
-
-
-### Figure 3- Bacilli Simpson Diversity Over Time
-```{r bacilli diversity over time}
-plot_richness(gp_ch,
-              x = "sample_description_s",
-              measures = c("Shannon","Simpson"),
-              color = "collection_date_s") +
-  xlab("Source of Sample") +
-  geom_jitter(width = 0.2) +
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1))
-  theme_bw()
-```
-Figure 3- Shows that diversity of bacilli were mainly low in body006 specific organs, but remained high in the body cavity. For body016, diversity remained high.
-
-### Figure 4- Enterbacteriales Distribution Across Samples
-```{r enterobacteriales distribution across samples}
-gp_ch2 <- subset_taxa(phyloseq_obj, Phylum == "Proteobacteria")
-plot_bar(gp_ch2,
-  fill = "Family",
-  title = "Enterobacteriales Distribution Across Samples")
-```
-Figure 4- Shows that enterbacteriaceae are predominantly present in samples 09, 11, 18, 21 and 22 which correspond to which all correspond to the later end-bloat samples except for 21 which is a fecal sample from body016.
-
-### Figure 5 Enterobacteriales Simpson Diversity Over Time
-```{r enterbacteriales diversity over time}
-plot_richness(gp_ch2,
-              x = "sample_description_s",
-              measures = c("Shannon", "Simpson"),
-              color = "collection_date_s") +
-  xlab("Source of Sample") +
-  geom_jitter(width = 0.2) +
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1))
-  theme_bw()
-```
-Figure 5- Simpson diversity decreases for Enterobacteriales usually in the later samples. 
-
-```{r clostridia}
-gp_ch3 <- subset_taxa(phyloseq_obj, Class == "Clostridia")
-plot_bar(gp_ch3,
-  fill = "Genus",
-  title = "Clostridia Distribution Across Samples")
-```
-
-```{r}
-plot_richness(gp_ch3,
-              x = "sample_description_s",
-              measures = c("Shannon","Simpson"),
-              color = "collection_date_s") +
-  xlab("Source of Sample") +
-  geom_jitter(width = 0.2) +
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1))
-  theme_bw()
-```
-
-
-```{r}
-gp_ch4 <- subset_taxa(phyloseq_obj, Phylum == "Bacteroidetes")
-plot_bar(gp_ch4,
-  fill = "Genus",
-  title = "Bacteroidetes Distribution Across Samples")
-```
-
-```{r}
-plot_richness(gp_ch4,
-              x = "sample_description_s",
-              measures = c("Shannon","Simpson"),
-              color = "collection_date_s") +
-  xlab("Source of Sample") +
-  geom_jitter(width = 0.2) +
-  theme(axis.text.x = element_text(angle = 90,
-                                   hjust = 1))
-  theme_bw()
-```
-
 
 
 
@@ -212,7 +267,6 @@ plot_richness(gp_ch4,
 
 
 # Discussion
-
-Add around 3-4 pages interpreting your results and considering future directions one might take in analyzing these data.
+These are important baselines to consider and establish because each cadaver has a significantly different starting diversity While no comparison addressing differences or similarites between cadavers will be made in the rest of the study, individualistic trends will be assessed to attempt to understand how the microbial communities of these two cadavers changes over time.
 
 # Sources Cited
