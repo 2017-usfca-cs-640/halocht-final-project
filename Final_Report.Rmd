@@ -30,7 +30,7 @@ Each method of course, has its corresponding error rate which can overestimate o
 
 Interestingly, microbial communities have been outright dismissed by certain forensic scientists as having anything to do with the decomposition process of human corpses [@Carter2008], yet other sources explain that microbial decomposers are considered to have co-evolved with the presence of vertebrate corpses for the need to recycle complex biological molecules back into basic compounds and elements [@Metcalf2016]. It is currently acknowledged, however, by many sources that there exists a distinct change in the microbial communities decomposing the human body throughout the putrefaction stage, characterized by a shift from dominance exhibited by aerobic bacteria to dominance exhibited by anaerobic bacteria [@Hyde2013; @Hyde2015; @Emmons2017]. This is possibly due to the fact that as the present microbes are mostly aerobic at the beginning of putrefaction, they begin to produce various gaseous products which "bloat" the corpse. Furthermore, the gaseous exchanges between the interior of the body and the exterior no longer happen, so what results is that the aerobic bacteria bascially poison themselves with all of the waste they develop during decomposition. This creates room for facultive and obligate anaerobes to proliferate in an environment that is oxygen-deficient. It is not until the holes carved by other scavengers "purge" the body of the gaseous and liquid buildup, that the cadaver can become an ecosystem to aerobic bacteria once more.
 
-In this study, the shift will be measured by the relative abundance of the following bacteria to characterize the transition. Specifically, it is expected that microbes from the *Bacilli* genera will decrease in abundance while microbes from the *Bacteroides* genera will increase in abundance as the samples go from pre-bloat to end-bloat [@Hyde2013]. Furthermore, since [@Javan2017] discusses the predominance of the *Clostridia* class in the decomposition of the body, these microbes will be also expected to increase in all parts of the cadaver. 
+In this study, the shift will be measured by the relative abundance of the following bacteria to characterize the transition. Specifically, it is expected that microbes from the *Bacilli* genera will decrease in abundance while microbes from the *Bacteroidetes* phyla will increase in abundance as the samples go from pre-bloat to end-bloat [@Hyde2013]. Furthermore, since [@Javan2017] discusses the predominance of the *Clostridia* class in the decomposition of the body, these microbes will be also expected to increase in all parts of the cadaver. 
 
 
 # Methods
@@ -240,48 +240,18 @@ Therefore, rather than attempting to analyze absolute values within both measure
 
 ## Bacilli and Clostridia
 
-After an appropriate abundance of *Firmicutes* was established by Figure 1, the genera was plotted in Figure 2. It is evident from Figure 2 that the two Bacilli kept as standards of aerobid respiration, *Staphylococcus* and *Streptococcus* decreased in both bodies with respect to the anaerobic standard, *Clostrida*, which alternatively increases from pre-bloat to end-bloat samples.
+After an appropriate abundance of *Firmicutes* was established by Figure 2, the genera was plotted in Figure 3. It is evident from Figure 3 that the two Bacilli kept as standards of aerobid respiration, *Staphylococcus* and *Streptococcus* decreased in both bodies with respect to the anaerobic standard, *Clostrida*, which alternatively increases from pre-bloat to end-bloat samples. This was further exemplified by Figures 4 and 5 (which are esentially the same) which show that the ratio of *Clostridia* to *Bacilli* increases in both cadavers from the pre-bloat to the end-bloat oral samples. This trend is also true for some of the other samples from body006 but less true for body016. Again, this is possibly due to the individual starting differences. There were no changes in diversity trends in each specific cadaver, so the results were deemed to be reliable.
 
+## Bacteroidetes
 
+The *Bacteroidetes* phyla in contrast, was much more difficult to understand. For starters, it seems that the 08Sep2011 samples were completely disregarded as they do not appear in Figure 7. Although this was due to the trimming process, it prevented a temporal analysis of body006, which was unfortunate because it seemed to be a better model than body016, possibly due to either the previous disease state of body016, or even the season during which body016 decomposed at (November in Texas is much colder than September). 
 
+However, There was a high abundance for *Bacteroides* specifically in an end-bloat sample in body006, so at least there is some evidence explaining that these microbes do tend to show up towards the end of the putrefaction stage as they are obligate anaerobes.
 
+The diversity graph in Figure 8 however, seems to be skewed towards a loss of samples from the pre-bloat stage because Shannon diversity is extremely low for the majority of samples. As a decomposing body ripe with nutrients and little to no regulation over the availability and distribution of those nutrients, the microbial communities present in this ecosystem are not subdued by limiting resources, createing an unlevel playing field in which some bacteria will effectively prove to be advantaegous and dominate over the rest [@Javan2017]. Such domination would be represented by high diversity values for the Simpson index because it would rely on the proliferation of this specific community for its high values. Consequently however, if low values are observed for the Shannon function for the same set of samples, then this would point towards the data being skewed because if one microbe is specifically proliferating in a nutrient-rich environment, then there should be some other microbes that should be proliferating as well. The fact that Shannon diversity is only high for the sample that contained all of the *Bacteroides* in Figure 8, seems to explicate that the loss of sequences from either sampling or processing methods, skewed our results. Furthermore, the trends apparent in oral samples ceases to exist in Figure 8 except for the artifically created low oral sample from body006 from 08Sep2011 (the sample was discarded during processing of results because of insufficient abundances).
 
+## Future Steps
 
+It became very apparent during the course of the study, that better methods of decomposition progress characterization are needed in order to be able to keep sampling consistent even when certain organs are decomposed or are no longer recognizable. Furthermore, better methods in actual sampling are also needed, as there is some suspicion that samples were cross-contaminated. If these specifics can be addressed, then it is very likely that A PMI using microbial sequencing data will be able to be developed in order to determine the time since death of a human being. Specifically, the putrefaction and bloat stages undergoe a natural transition that might be able to be correlated with the time of death. This natural pattern exhibits an important theme in analyzing Bioinformatic data, as we can rely on these natural processes to develop algorithms and observations of our own. 
 
-
-
-## Bacteroides
-
-
-
-
-
-
-
-As a decomposing body ripe with nutrients and little to no regulation over the availability and distribution of those nutrients, the microbial communities present in this ecosystem are not subdued by limiting resources, which creates an unlevel playing field in which some bacteria will effectively prove to be advantaegous and dominate over the rest [@Javan2017]. Such domination would be represented by high diversity values for the Simpson index because it would rely on the proliferation of this specific community for its high values. Consequently, if low values are observed for the Shannon function for the same set of samples, then this would point towards the data being skewed because
-
-
-this likely means that the microbquestion has effectively dominated its immediate ecosystem by utilizing all the resources which it has stripped from its competitors.
-
-Alternatively, if the Shannon function returns values which are high in comparison to Simpson values, then it can be inferred that the microbial community in q
-
----
-#Simpson's index is a similarity index (the higher the value the lower in diversity). If you want to use it as a diversity index you can subtract it to 1 (i.e. 1-S). Conversely, the value of the Shannon function (it is not an index) increases as diversity increases.
-
-#The Shannon index is an information statistic index, which means it assumes all species are represented in a sample and that they are randomly sampled. Can you point out any problems in these assumptions?
-
-#The Simpson index is a dominance index because it gives more weight to common or dominant species. In this case, a few rare species with only a few representatives will not affect the diversity. Can you point out any problems in these assumptions?
-
----
-These are important baselines to consider and establish because each cadaver has a significantly different starting diversity While no comparison addressing differences or similarites between cadavers will be made in the rest of the study, individualistic trends will be assessed to attempt to understand how the microbial communities of these two cadavers changes over time. [@Javan2017]
-
-These are important baselines to consider and establish because each cadaver has a significantly different starting diversity While no comparison addressing differences or similarites between cadavers will be made in the rest of the study, individualistic trends will be assessed to attempt to understand how the microbial communities of these two cadavers changes over time.
-
-
-Fig 4
-it could be interesting to think that a body that is diseased by certain illnesses might have to reset itself after death, and so the progress of bacterial decomposition might occur at a slower rate than in a healthy body. Conversely, the time of the season might also be to blame (Nov vs Sep)
-
-
-fig 6
-could be due to one bacteria dominating diversity as is given more weight in the simpson index
 # Sources Cited
